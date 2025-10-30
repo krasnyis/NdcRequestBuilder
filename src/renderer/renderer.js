@@ -274,9 +274,19 @@ function createNewRequest() {
 }
 
 // Load request (placeholder - would integrate with file system)
-function loadRequest() {
-    // This would typically open a file dialog
-    updateStatus('Load request functionality - to be implemented');
+async function loadRequest() {
+    try {
+        // Open file dialog and get file contents via Electron API
+        const fileContent = await window.electronAPI.openRequestFile();
+        if (fileContent) {
+            requestInput.value = fileContent;
+            updateStatus('Request loaded from file');
+        } else {
+            updateStatus('No file selected');
+        }
+    } catch (error) {
+        updateStatus('Failed to load request: ' + error.message);
+    }
 }
 
 // Save request using Electron's dialog API via context bridge

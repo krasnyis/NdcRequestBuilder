@@ -279,15 +279,25 @@ function loadRequest() {
     updateStatus('Load request functionality - to be implemented');
 }
 
-// Save request (placeholder - would integrate with file system)
-function saveRequest() {
+// Save request using Electron's dialog API via context bridge
+async function saveRequest() {
     if (!requestInput.value.trim()) {
         updateStatus('No request to save');
         return;
     }
-    
-    // This would typically open a save dialog
-    updateStatus('Save request functionality - to be implemented');
+
+    try {
+        const result = await window.electronAPI.saveRequestToFile(requestInput.value);
+        if (result && result.success) {
+            updateStatus('Request saved successfully');
+        } else if (result && result.canceled) {
+            updateStatus('Save request canceled');
+        } else {
+            updateStatus('Failed to save request');
+        }
+    } catch (error) {
+        updateStatus('Error saving request');
+    }
 }
 
 // Send request

@@ -250,9 +250,8 @@ function selectRequestType(requestType) {
     
     // Load template
     if (NDC_TEMPLATES[requestType]) {
-        const template = JSON.stringify(NDC_TEMPLATES[requestType], null, 2);
-        requestInput.value = template;
-        currentRequest = NDC_TEMPLATES[requestType];
+        requestInput.value = '<!-- Paste or edit your XML request here -->';
+        currentRequest = null;
         updateRequestInfo();
         updateStatus(`Loaded ${titles[requestType]} template`);
     }
@@ -299,25 +298,15 @@ async function sendRequest() {
         return;
     }
     
-    try {
-        // Parse JSON to validate
-        const parsedRequest = JSON.parse(requestData);
-        
-        updateStatus('Sending request...');
-        
-        // Send request via IPC
-        const result = await window.electronAPI.processNdcRequest(parsedRequest);
-        
-        if (result.success) {
-            displayResponse(result.data, 'success');
-            updateStatus('Request sent successfully');
-        } else {
-            displayResponse({ error: result.error }, 'error');
-            updateStatus('Request failed');
-        }
-    } catch (error) {
-        displayResponse({ error: 'Invalid JSON format' }, 'error');
-        updateStatus('Invalid JSON format');
+    updateStatus('Sending request...');
+    // Send XML request via IPC
+    const result = await window.electronAPI.processNdcRequest(requestData);
+    if (result.success) {
+        displayResponse(result.data, 'success');
+        updateStatus('Request sent successfully');
+    } else {
+        displayResponse(result.error, 'error');
+        updateStatus('Request failed');
     }
 }
 
@@ -347,9 +336,7 @@ function validateJSON() {
 // Display response
 function displayResponse(data, type = 'success') {
     const className = type === 'success' ? 'response-success' : 'response-error';
-    const formattedData = JSON.stringify(data, null, 2);
-    
-    responseOutput.innerHTML = `<pre class="${className}">${formattedData}</pre>`;
+    responseOutput.innerHTML = `<pre class="${className}">${data}</pre>`;
 }
 
 // Update status
@@ -380,3 +367,5 @@ requestInput.addEventListener('input', () => {
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', function() {
+});

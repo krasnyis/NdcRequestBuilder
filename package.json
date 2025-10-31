@@ -23,10 +23,19 @@
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "babel-loader": "^10.0.0",
     "electron": "^27.0.0",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.6.4",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
   "build": {
     "appId": "com.yourcompany.ndc-request-builder",
     "productName": "NDC Request Builder",

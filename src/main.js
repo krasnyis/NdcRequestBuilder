@@ -22,8 +22,8 @@ function createWindow() {
     show: false // Don't show until ready
   });
 
-  // Load the app
-  mainWindow.loadFile(path.join(__dirname, 'renderer/index.html'));
+  // Load the Vite-built app
+  mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
 
   // Show window when ready
   mainWindow.once('ready-to-show', () => {

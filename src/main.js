@@ -1,5 +1,6 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs').promises;
 const isDev = process.argv.includes('--dev');
 
 // Keep a global reference of the window object
@@ -174,6 +175,58 @@ ipcMain.handle('process-ndc-request', async (event, requestData) => {
     return { success: true, data: requestData };
   } catch (error) {
     console.error('Error processing NDC request:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// File operation handlers
+ipcMain.handle('save-request-to-file', async (event, requestData) => {
+  try {
+    const result = await dialog.showSaveDialog(mainWindow, {
+      title: 'Save NDC Request',
+      defaultPath: 'ndc-request.json',
+      filters: [
+        { name: 'JSON Files', extensions: ['json'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    });
+
+    if (!result.canceled && result.filePath) {
+      await fs.writeFile(result.filePath, requestData, 'utf8');
+      return { success: true, filePath: result.filePath };
+    }
+    
+    return { success: false, error: 'Save cancelled' };
+  } catch (error) {
+    console.error('Error saving file:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('load-request-from-file', async (event) => {
+  try {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      title: 'Load NDC Request',
+      filters: [
+        { name: 'JSON Files', extensions: ['json'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      properties: ['openFile']
+    });
+
+    if (!result.canceled && result.filePaths.length > 0) {
+      const filePath = result.filePaths[0];
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      
+      // Validate JSON
+      JSON.parse(fileContent);
+      
+      return { success: true, data: fileContent, filePath };
+    }
+    
+    return { success: false, error: 'Load cancelled' };
+  } catch (error) {
+    console.error('Error loading file:', error);
     return { success: false, error: error.message };
   }
 });

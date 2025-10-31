@@ -273,23 +273,25 @@ function createNewRequest() {
     updateStatus('New request created');
 }
 
-// Load request (placeholder - would integrate with file system)
+// Load request from file
 async function loadRequest() {
     try {
-        // Open file dialog and get file contents via Electron API
-        const fileContent = await window.electronAPI.openRequestFile();
-        if (fileContent) {
-            requestInput.value = fileContent;
-            updateStatus('Request loaded from file');
+        const result = await window.electronAPI.loadRequestFromFile();
+        if (result && result.success) {
+            requestInput.value = result.data;
+            currentRequest = JSON.parse(result.data);
+            updateRequestInfo();
+            updateStatus('Request loaded successfully');
         } else {
-            updateStatus('No file selected');
+            updateStatus(result?.error || 'No file selected');
         }
     } catch (error) {
+        console.error('Error loading request:', error);
         updateStatus('Failed to load request: ' + error.message);
     }
 }
 
-// Save request using Electron's dialog API via context bridge
+// Save request to file
 async function saveRequest() {
     if (!requestInput.value.trim()) {
         updateStatus('No request to save');
@@ -299,14 +301,13 @@ async function saveRequest() {
     try {
         const result = await window.electronAPI.saveRequestToFile(requestInput.value);
         if (result && result.success) {
-            updateStatus('Request saved successfully');
-        } else if (result && result.canceled) {
-            updateStatus('Save request canceled');
+            updateStatus(`Request saved to ${result.filePath}`);
         } else {
-            updateStatus('Failed to save request');
+            updateStatus(result?.error || 'Failed to save request');
         }
     } catch (error) {
-        updateStatus('Error saving request');
+        console.error('Error saving request:', error);
+        updateStatus('Error saving request: ' + error.message);
     }
 }
 

@@ -1,6 +1,6 @@
 # NDC Request Builder
 
-A modern Electron application for building and testing NDC (New Distribution Capability) requests in the aviation industry.
+A modern Electron application for building and testing NDC (New Distribution Capability) requests.
 
 ## Features
 

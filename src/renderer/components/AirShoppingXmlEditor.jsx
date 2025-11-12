@@ -58,6 +58,7 @@ export function AirShoppingXmlEditor() {
   const [origins, setOrigins] = useState([]);
   const [paxes, setPaxes] = useState([]);
   const [xmlPreview, setXmlPreview] = useState('');
+  const [nextId, setNextId] = useState(1);
 
   useEffect(() => {
     setXmlPreview(prettyXml(buildXml()));
@@ -119,11 +120,14 @@ export function AirShoppingXmlEditor() {
     if (e.dataTransfer.getData('source') === 'component') {
       const component = JSON.parse(e.dataTransfer.getData('component'));
       if (component.tag === 'DistributionChainLink') {
-        setChainLinks(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setChainLinks(list => [...list, { id: nextId, tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(id => id + 1);
       } else if (component.tag === 'OriginDestCriteria') {
-        setOrigins(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setOrigins(list => [...list, { id: nextId, tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(id => id + 1);
       } else if (component.tag === 'Pax') {
-        setPaxes(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setPaxes(list => [...list, { id: nextId, tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(id => id + 1);
       }
     }
     // Beautify the editable area after drop

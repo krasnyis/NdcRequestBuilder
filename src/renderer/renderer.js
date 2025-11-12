@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
 // Mount React XML Editor into #airshopping-editor
 document.addEventListener('DOMContentLoaded', function() {
     const editorContainer = document.getElementById('airshopping-editor');

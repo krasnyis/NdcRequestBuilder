@@ -10,10 +10,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // NDC request processing
   processNdcRequest: (requestData) => ipcRenderer.invoke('process-ndc-request', requestData),
   
-  // File operations
-  saveRequestToFile: (requestData) => ipcRenderer.invoke('save-request-to-file', requestData),
-  loadRequestFromFile: () => ipcRenderer.invoke('load-request-from-file'),
-  
   // Menu event listeners
   onMenuNewRequest: (callback) => ipcRenderer.on('menu-new-request', callback),
   onMenuOpenRequest: (callback) => ipcRenderer.on('menu-open-request', callback),

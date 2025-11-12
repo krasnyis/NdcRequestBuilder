@@ -3,88 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://unpkg.com; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline';">
     <title>NDC Request Builder</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <header class="app-header">
-            <h1>NDC Request Builder</h1>
-            <div class="app-version" id="app-version"></div>
-        </header>
-        
-        <main class="app-main">
-            <div class="sidebar">
-                <div class="sidebar-section">
-                    <h3>Request Types</h3>
-                    <ul class="request-types">
-                        <li><button class="request-type-btn" data-type="airShopping">Air Shopping</button></li>
-                        <li><button class="request-type-btn" data-type="flightPrice">Flight Price</button></li>
-                        <li><button class="request-type-btn" data-type="seatAvailability">Seat Availability</button></li>
-                        <li><button class="request-type-btn" data-type="orderCreate">Order Create</button></li>
-                        <li><button class="request-type-btn" data-type="orderRetrieve">Order Retrieve</button></li>
-                    </ul>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3>Actions</h3>
-                    <button id="new-request-btn" class="action-btn">New Request</button>
-                    <button id="load-request-btn" class="action-btn">Load Request</button>
-                    <button id="save-request-btn" class="action-btn">Save Request</button>
-                    <button id="send-request-btn" class="action-btn primary">Send Request</button>
-                </div>
-            </div>
-            
-            <div class="content-area">
-                <div class="request-builder">
-                    <div class="request-header">
-                        <h2 id="request-title">Select a Request Type</h2>
-                        <div class="request-controls">
-                            <button id="format-btn" class="control-btn">Format JSON</button>
-                            <button id="validate-btn" class="control-btn">Validate</button>
-                        </div>
-                    </div>
-                    
-                    <div class="request-body">
-                        <div class="input-section">
-                            <h3>Request</h3>
-                            <textarea 
-                                id="request-input" 
-                                placeholder="Select a request type or paste your NDC request JSON here..."
-                                rows="15"
-                            ></textarea>
-                        </div>
-                        
-                        <div class="output-section">
-                            <h3>Response</h3>
-                            <div id="response-output" class="response-container">
-                                <div class="placeholder">Response will appear here after sending the request</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <footer class="app-footer">
-            <div class="status-bar">
-                <span id="status-text">Ready</span>
-                <span id="request-info"></span>
-            </div>
-        </footer>
-    </div>
+    <div id="app"></div>
+    <div id="airshopping-editor"></div>
     
-    <!-- About Modal -->
-    <div id="about-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>About NDC Request Builder</h2>
-            <p>A powerful tool for building and testing NDC (New Distribution Capability) requests.</p>
-            <p id="about-version"></p>
-        </div>
-    </div>
-    
-    <script src="renderer.js"></script>
+    <script type="module" src="./main.jsx"></script>
 </body>
 </html>

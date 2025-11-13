@@ -20,7 +20,7 @@
     "request-builder",
     "aviation"
   ],
-  "author": "Your Name",
+  "author": "NDC Request Builder Contributors",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.28.3",
@@ -40,7 +40,7 @@
     "react-dom": "^19.2.0"
   },
   "build": {
-    "appId": "com.yourcompany.ndc-request-builder",
+    "appId": "com.ndcrequestbuilder.app",
     "productName": "NDC Request Builder",
     "directories": {
       "output": "dist"

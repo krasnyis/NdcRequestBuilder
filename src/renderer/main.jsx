@@ -14,8 +14,8 @@ function MainApp() {
 
   const handleStepChange = (step) => {
     setCurrentStep(step);
-    const stepNames = ['', 'Scenario', 'Request Type', 'Request Components', 'Request Validation', 'Send Request'];
-    setStatus(`Step ${step}: ${stepNames[step]}`);
+    const stepNames = ['Scenario', 'Request Type', 'Request Components', 'Request Validation', 'Send Request'];
+    setStatus(`Step ${step}: ${stepNames[step - 1]}`);
   };
 
   const handleNext = () => {

@@ -59,6 +59,7 @@ export function AirShoppingXmlEditor() {
   const [paxes, setPaxes] = useState([]);
   const [xmlPreview, setXmlPreview] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+  const [nextId, setNextId] = useState(1);
 
   const buildXml = React.useCallback(() => {
     return `<?xml version="1.0" encoding="utf-8"?>
@@ -158,11 +159,20 @@ ${paxes.map(pax => `            <Pax>
     if (e.dataTransfer.getData('source') === 'component') {
       const component = JSON.parse(e.dataTransfer.getData('component'));
       if (component.tag === 'DistributionChainLink') {
-        setChainLinks(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(currentId => {
+          setChainLinks(list => [...list, { id: currentId, tag: component.tag, value: { ...component.defaultValue } }]);
+          return currentId + 1;
+        });
       } else if (component.tag === 'OriginDestCriteria') {
-        setOrigins(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(currentId => {
+          setOrigins(list => [...list, { id: currentId, tag: component.tag, value: { ...component.defaultValue } }]);
+          return currentId + 1;
+        });
       } else if (component.tag === 'Pax') {
-        setPaxes(list => [...list, { id: Date.now(), tag: component.tag, value: { ...component.defaultValue } }]);
+        setNextId(currentId => {
+          setPaxes(list => [...list, { id: currentId, tag: component.tag, value: { ...component.defaultValue } }]);
+          return currentId + 1;
+        });
       }
     }
     // The useEffect will automatically update the XML preview when state changes

@@ -87,7 +87,7 @@ export const NDC_TEMPLATES = {
             AirportCode: 'LAX',
           },
           MarketingCarrier: {
-            AirlineID: 'AA',
+            AirlineID: 'AS',
             FlightNumber: '100',
           },
         },
